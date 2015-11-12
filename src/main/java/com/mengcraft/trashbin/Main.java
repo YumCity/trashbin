@@ -47,14 +47,19 @@ public class Main extends JavaPlugin implements Listener, Runnable {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void handle(PlayerDropItemEvent event) {
-        Inventory trashBin = getTrashBin(event.getPlayer());
+    public void handle(final PlayerDropItemEvent event) {
+        final Inventory trashBin = getTrashBin(event.getPlayer());
         if (trashBin.addItem(event.getItemDrop().getItemStack()).isEmpty()) {
             if (trashBin.getViewers().size() != 0) {
-                event.getPlayer().openInventory(trashBin); // Force refresh bin.
+                getServer().getScheduler().runTask(this, new Runnable() {
+                    public void run() {
+                        event.getPlayer().openInventory(trashBin); // Force refresh bin.
+                    }
+                });
+            } else {
+                event.getPlayer().sendMessage(getMessageSuccess());
             }
             event.getItemDrop().remove();
-            event.getPlayer().sendMessage(getMessageSuccess());
         } else {
             event.setCancelled(true);
             event.getPlayer().sendMessage(getMessageFull());
