@@ -2,3 +2,4 @@ title: '垃圾箱'
 message:
   success: '你成功放置了一个物品进入垃圾箱'
   full:    '你无法放置物品进入已满的垃圾箱'
+clearDaily: 6000

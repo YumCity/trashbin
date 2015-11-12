@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,6 +31,11 @@ public class Main extends JavaPlugin implements Listener, Runnable {
     public void onEnable() {
         getConfig().options().copyDefaults(true);
         saveConfig();
+
+        getServer().getScheduler().runTaskTimer(this, this,
+                getConfig().getInt("clearDaily"),
+                getConfig().getInt("clearDaily")
+        );
 
         getServer().getPluginManager().registerEvents(this, this);
         getCommand("trashbin").setExecutor(this);
@@ -59,6 +65,12 @@ public class Main extends JavaPlugin implements Listener, Runnable {
         return args.length == 0;
     }
 
+    public void run() {
+        for (Map.Entry<UUID, Inventory> entry : trashMap.entrySet()) {
+            entry.getValue().clear();
+        }
+    }
+
     private void openTrashBin(Player player) {
         player.openInventory(getTrashBin(player));
     }
@@ -73,12 +85,6 @@ public class Main extends JavaPlugin implements Listener, Runnable {
 
     private Inventory createFor(Player player) {
         return getServer().createInventory(player, 54, getTitle());
-    }
-
-    public void run() {
-        for (Map.Entry<UUID, Inventory> entry : trashMap.entrySet()) {
-            entry.getValue().clear();
-        }
     }
 
     public String getTitle() {
