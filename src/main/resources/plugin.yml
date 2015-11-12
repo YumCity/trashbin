@@ -1,0 +1,14 @@
+name: TrashBin
+main: com.mengcraft.trashbin.Main
+version: ${project.version}
+author: mengcraft.com
+
+commands:
+  trashbin:
+    description: None.
+    permission: trashbin.use
+
+permissions:
+  trashbin.use:
+    description: None.
+    default: true
