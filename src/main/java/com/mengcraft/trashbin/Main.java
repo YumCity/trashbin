@@ -1,5 +1,6 @@
 package com.mengcraft.trashbin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +12,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +39,13 @@ public class Main extends JavaPlugin implements Listener, Runnable {
 
         getServer().getPluginManager().registerEvents(this, this);
         getCommand("trashbin").setExecutor(this);
+
+        String[] ad = {
+                ChatColor.GREEN + "本插件由梦梦家服务器提供",
+                ChatColor.GREEN + "梦梦家高性能服务器出租店",
+                ChatColor.GREEN + "shop105595113.taobao.com"
+        };
+        getServer().getConsoleSender().sendMessage(ad);
     }
 
     @EventHandler
